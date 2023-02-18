@@ -1,0 +1,10 @@
+<h1>This is my list</h1>
+
+<ul>
+<% @lists.each do |list| %>
+  <li><%= link_to list.name, list_path(list) %></li>
+<% end %>
+</ul>
+
+
+<a class="btn btn-danger" href="/lists/new">Create new movie list</a>

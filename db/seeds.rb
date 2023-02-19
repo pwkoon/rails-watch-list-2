@@ -12,6 +12,7 @@ url = "https://tmdb.lewagon.com/movie/top_rated"
 movie_serialized = URI.open(url).read
 movies = JSON.parse(movie_serialized)
 
+
 puts "Clean all the movies"
 Movie.delete_all
 puts "Start create movies"

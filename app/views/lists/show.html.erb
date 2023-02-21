@@ -1,30 +1,50 @@
 <%= render "/shared/navbar" %>
 
+<div
+  class="bg-image"
+  style="
+    background-image: url('https://rare-gallery.com/uploads/posts/340174-Digital-Art-Kaonashi-Spirited-Away-Anime.jpg');
+    height: 50vh;
+    background-size: cover;
+    background-position: center
+  "
+>
+<div class="d-flex align-items-start justify-content-end text-white">
+  <% if @list.movies.empty? %>
+    <button type="button" class="btn btn-dark"><%= @list.movies.count %> movie</button>
+  <% elsif @list.movies.count == 1  %>
+    <button type="button" class="btn btn-dark"><%= @list.movies.count %> movie</button>
+  <% else %>
+    <button type="button" class="btn btn-dark"><%= @list.movies.count %> movies</button>
+  <% end %>
+</div>
+
+</div>
 <br>
-<div class="d-flex justify-content-around align-items-center">
-  <h2 class="fw-bold" style="font-family: Anton">My <%= @list.name %>'s list</h2>
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    New Movie
-  </button>
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="bg-white rounded p-3 shadow">
-          <div class="d-flex justify-content-between">
-          <h3>Add a movie to your <%= @list.name %> list</h3>
-          <a href="" class="text-danger"><i class="fa-regular fa-circle-xmark"></i></a>
+  <div class="d-flex justify-content-around align-items-center">
+    <h2 class="fw-bold" style="font-family: Anton">My <%= @list.name %>'s list</h2>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      New Movie
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="bg-white rounded p-3 shadow">
+            <div class="d-flex justify-content-between">
+            <h3>Add a movie to your <%= @list.name %> list</h3>
+            <a href="" class="text-danger"><i class="fa-regular fa-circle-xmark"></i></a>
+            </div>
+              <%= simple_form_for [@list, @bookmark] do |f| %>
+              <%= f.input :comment, placeholder: 'Enter a comment about the movie' %>
+              <%= f.association :movie, prompt: "Select a movie", input_html: {data: { controller: "tom-select"}} %>
+              <%= f.submit class: "btn btn-flat" %>
+              <% end %>
           </div>
-            <%= simple_form_for [@list, @bookmark] do |f| %>
-            <%= f.input :comment, placeholder: 'Enter a comment about the movie' %>
-            <%= f.association :movie, prompt: "Select a movie", input_html: {data: { controller: "tom-select"}} %>
-            <%= f.submit class: "btn btn-flat" %>
-            <% end %>
         </div>
       </div>
     </div>
   </div>
-</div>
 <hr>
 
 <div class="container">
@@ -40,9 +60,9 @@
       <div class="card h-100">
         <%= image_tag "https://image.tmdb.org/t/p/w500/#{movie.poster_url}", alt: movie.title, class: "card-img-top" %>
       <div class="card-body">
-        <h5 class="card-title"><%= movie.title %></h5>
+        <h5 class="card-title fw-bold text-success"><%= movie.title %></h5>
         <p class="card-text"><%= movie.overview %></p>
-        <p class="card-text"><small class="text-muted">Rating: <%= movie.rating %></small></p>
+        <p class="card-text"><%= movie.rating %> <i class="fa-solid fa-star text-warning"></i></p>
       </div>
       <div class="d-flex justify-content-around">
         <p class="text-success"><strong><i class="fa-solid fa-video"></i>  <%= bookmark.comment %></strong></p>
@@ -52,4 +72,34 @@
     </div>
     <% end %>
   <% end %>
+</div>
+<hr>
+<div class="row">
+    <div class="col-12 col-sm-6">
+      <h3>Reviews</h3>
+      <% if @list.reviews.empty? %>
+        <small><em class="text-muted">Be the first one to review this list</em></small>
+      <% end %>
+      <% @list.reviews.each do |review| %>
+        <div>
+          <% review.rating.times do %>
+            <i class="fas fa-star star-yellow"></i>
+          <% end %>
+          <small><em class="text-muted"><%= distance_of_time_in_words_to_now(review.created_at) %> ago</em></small>
+          <p class="mb-0"><%= review.comment %></p>
+        </div>
+        <hr>
+      <% end %>
+    </div>
+    <div class="col-12 col-sm-6">
+      <div class="bg-white rounded p-3">
+        <h5>Add your review</h5>
+        <%= simple_form_for [@list, @review] do |f| %>
+          <%= f.input :comment, placeholder: "Add your review here..." %>
+          <%= f.input :rating, as: :select, collection: (1..5), required: true, prompt: "What's your rating", input_html: { data: { controller: "star-rating" } } %>
+          <%= f.submit class:"btn btn-flat" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 // import TypedJs from "type"
-import Typed from "type.js"
+import Typed from "typed.js"
 
 export default class extends Controller {
   connect() {

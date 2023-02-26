@@ -1,7 +1,7 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
   <div class="container-fluid">
-    <%= link_to "/", class: "navbar-brand" do %>
-      <%= image_tag "https://www.freeiconspng.com/thumbs/popcorn-png/popcorn-png-6.png" %>
+    <%= link_to "#", class: "navbar-brand" do %>
+      <%= image_tag "https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/logo.png" %>
     <% end %>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,26 +10,26 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto">
-        <%# if user_signed_in? %>
+        <% if user_signed_in? %>
           <li class="nav-item active">
-            <%= link_to "My Lists", "/lists", class: "nav-link text-white" %>
+            <%= link_to "Home", "#", class: "nav-link text-white" %>
           </li>
           <li class="nav-item">
-            <%= link_to "About me", "#", class: "nav-link text-white" %>
+            <%= link_to "Messages", "#", class: "nav-link text-white" %>
           </li>
           <li class="nav-item dropdown">
-            <%= image_tag "https://cdn.shopify.com/s/files/1/0367/9101/products/figurine-big-hero-6-baymax-nendoroid-no-1630-br-pre-order-28174024704079_1024x1024.jpg?v=1636946636", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+            <%= image_tag "https://avatars.githubusercontent.com/u/108753745?s=400&u=53aa0875a42f2dfb10bc1d2eabff5d8ad53f18c9&v=4", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <%= link_to "Action", "#", class: "dropdown-item" %>
               <%= link_to "Another action", "#", class: "dropdown-item" %>
-              <%= link_to "Log out", "#", class: "dropdown-item", data: {turbo_method: :delete} %>
+              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
             </div>
           </li>
-        <%# else %>
-          <!--li class="nav-item"-->
-            <%#= link_to "Login", new_user_session_path, class: "nav-link" %>
-          <!--/li-->
-        <%# end %>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "Login", new_user_session_path, class: "nav-link text-white" %>
+          </li>
+        <% end %>
       </ul>
     </div>
   </div>
